@@ -53,7 +53,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True)
     email = db.Column(db.String(80))
     password_hash = db.Column(db.String(120))
-    solved = db.Column(db.String(400))
+    level = db.Column(db.Integer)
     lastSubmit = db.Column(db.DateTime)
 
     @property
@@ -74,11 +74,11 @@ class Challenges(db.Model):
     __tablename__ = 'challenges'
     __table_args__ = {'extend_existing': True}
     
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), unique=True)
-    category = db.Column(db.String(60))
+    level = db.Column(db.Integer, primary_key=True)
+    #name = db.Column(db.String(80), unique=True)
+    #category = db.Column(db.String(60))
     info = db.Column(db.String(1000))
-    score = db.Column(db.String(20))
+    #score = db.Column(db.String(20))
     flag = db.Column(db.String(80))
     solves = db.Column(db.String(20))
 
@@ -86,6 +86,7 @@ class Challenges(db.Model):
         return '<Challenges %r>' % self.name
 
 
+"""
 def user_score(user):
     solved = user.solved.split(",")
     score = 0
@@ -99,6 +100,7 @@ def user_score(user):
 @app.context_processor
 def utility_processor():
     return dict(user_score=user_score)
+"""
 
 ################################
 ###########  FORMS   ###########
@@ -142,42 +144,42 @@ def challenges():
     #categories = [row.category for row in query.all()]
     return render_template('challenges.html', challenges=challenges)#, categories=categories)
 
-@app.route('/scoreboard')
+@app.route('/solve',methods=["GET","POST"])
 @login_required
-def scoreboard():
-    users = User.query.filter(User.username!='admin').all()
-    def custom_order(x, y):
-        rx = user_score(x)
-        ry = user_score(y)
-        if rx != ry: return rx - ry
-        tx = time.mktime(x.lastSubmit.timetuple()) if x.lastSubmit else 0
-        ty = time.mktime(y.lastSubmit.timetuple()) if y.lastSubmit else 0
-        return int(ty - tx)
-    l = sorted(list(users), cmp=custom_order, reverse=True)
-    ranking = -1 if current_user.username == "admin" else int(l.index(current_user)) + 1
-    return render_template('scoreboard.html', users=l, ranking=ranking)
-
-@app.route('/challenge/<challenge_name>',methods=["GET","POST"])
-@login_required
-def challenge(challenge_name):
+def solve():
     form = ChallengeForm(request.form)
-    challenge = Challenges.query.filter_by(name=challenge_name).first()
+    challenge = Challenges.query.filter_by(level = current_user.level).first()
+    #challenge = Challenges.query.filter_by(name=challenge_name).first()
     
     if form.validate_on_submit() and challenge.flag == form.flag.data:
         user = User.query.filter_by(username=current_user.username).first()
-        if str(challenge.id) in user.solved.split(","):
+
+        """
+        if str(challenge.level) in user.solved.split(","):
             return "Ehi! You can't submit two times the same flag!"
         user.solved = user.solved + ',' + str(challenge.id)
+        """
+
         user.lastSubmit = datetime.datetime.utcnow()
         challenge.solves = str(int(challenge.solves) +1)
         ns = int(MAX_SCORE) - int(challenge.solves) // RATE_SCORE
         challenge.score = str(max(MIN_SCORE, ns))
         db.session.commit()
+
         return "Well done, the flag is correct."
+
     elif form.validate_on_submit() and challenge.flag != form.flag.data :
         return 'Wrong Flag!'
     
     return render_template('challenge.html',form=form, challenge=challenge )
+
+@app.route('/scoreboard')
+@login_required
+def scoreboard():
+    users = User.query.filter(User.username!='admin').all()
+    users.sort(key=lambda x: x.level, reverse=True)
+    ranking = -1 if current_user.username == "admin" else int(l.index(current_user)) + 1
+    return render_template('scoreboard.html', users=users, ranking=ranking)
 
 @app.route('/register', methods=['GET','POST'])
 def register():
@@ -192,7 +194,7 @@ def register():
         user = User(username=form.login.data,
                        email=form.email.data,
                        password=form.password.data,
-                       solved='')
+                       level=0)
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('index'))
@@ -224,7 +226,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-
