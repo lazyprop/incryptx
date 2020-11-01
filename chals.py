@@ -13,12 +13,20 @@ def declare_chal(data):
         db.session.add(Challenges(**data))
     db.session.commit()
 
-
 declare_chal({
     "level": 0,
-    "info": """,
-    test challenge<br>
+    "info": """
+    test challenge 0<br>
     flag = works
 """,
     "flag": 'works'
+})
+
+declare_chal({
+    "level": 1,
+    "info": """
+    test challenge 1<br>
+    flag = works1
+""",
+    "flag": 'works1'
 })

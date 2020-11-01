@@ -154,8 +154,7 @@ def solve():
 
         user.lastSubmit = datetime.datetime.utcnow()
         challenge.solves = str(int(challenge.solves) +1)
-        ns = int(MAX_SCORE) - int(challenge.solves) // RATE_SCORE
-        challenge.score = str(max(MIN_SCORE, ns))
+        user.level += 1
         db.session.commit()
 
         return "Well done, the flag is correct."
@@ -170,7 +169,8 @@ def solve():
 def scoreboard():
     users = User.query.filter(User.username!='admin').all()
     users.sort(key=lambda x: x.level, reverse=True)
-    ranking = -1 if current_user.username == "admin" else int(l.index(current_user)) + 1
+    #ranking = -1 if current_user.username == "admin" else int(users.index(current_user)) + 1
+    ranking = users.index(current_user)
     return render_template('scoreboard.html', users=users, ranking=ranking)
 
 @app.route('/register', methods=['GET','POST'])
