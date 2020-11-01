@@ -136,14 +136,6 @@ def load_user(user_id):
 def index():
     return render_template('index.html')
 
-@app.route('/challenges')
-@login_required
-def challenges():
-    challenges = Challenges.query.all()
-    #query = db.session.query(Challenges.category.distinct().label("category"))
-    #categories = [row.category for row in query.all()]
-    return render_template('challenges.html', challenges=challenges)#, categories=categories)
-
 @app.route('/solve',methods=["GET","POST"])
 @login_required
 def solve():

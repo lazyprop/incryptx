@@ -16,8 +16,8 @@ th, td {
 <table>
     <tr>
         <td>Rank</td>
-        <td>Name</td>
-        <td>Score</td>
+        <td>Username</td>
+        <td>Level</td>
     </tr>
     {% for user in users %}
     <tr>
@@ -29,5 +29,3 @@ th, td {
 </table>
 <form method="post" action="/"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /></form>
 {% endblock %}
-
-

@@ -22,5 +22,3 @@ declare_chal({
 """,
     "flag": 'works'
 })
-
-
