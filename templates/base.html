@@ -44,10 +44,7 @@
             right: -770px
          }
 
-        p {
-            display: inline;
-        }
-
+       
     </style>
 </head>
 <body>
@@ -55,15 +52,15 @@
 <h1>Incrypt-[X]</h1>
 
 <h3>
+
 <a href="{{ url_for('index') }}">Home</a>   &nbsp; 
 <a href="{{ url_for('solve') }}">Solve</a>  &nbsp;  
-<a href="{{ url_for('scoreboard') }}">Scoreboard</a></p>
-</h3>
-<p>
+<a href="{{ url_for('scoreboard') }}">Scoreboard</a>  &nbsp;
+
 {% if current_user.is_authenticated %}<a href="{{ url_for('logout') }}">Log Out</a>
 {% else %}<a href="{{ url_for('register') }}">Register</a> &nbsp; <a href="{{ url_for('login') }}">Log In</a>
 {% endif %}
-</p>
+</h3><br>
 {% block content %}{% block page_content %} {% endblock %}
 {% endblock %}
 
