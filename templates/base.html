@@ -60,7 +60,9 @@
 {% if current_user.is_authenticated %}<a href="{{ url_for('logout') }}">Log Out</a>
 {% else %}<a href="{{ url_for('register') }}">Register</a> &nbsp; <a href="{{ url_for('login') }}">Log In</a>
 {% endif %}
-</h3><br>
+
+</h3>
+
 {% block content %}{% block page_content %} {% endblock %}
 {% endblock %}
 
