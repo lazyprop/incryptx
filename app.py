@@ -83,7 +83,7 @@ class Challenges(db.Model):
     solves = db.Column(db.String(20))
 
     def __repr__(self):
-        return '<Challenges %r>' % self.name
+        return '<Challenge Level {}>'.format(self.level)
 
 
 """
@@ -139,6 +139,9 @@ def index():
 @app.route('/solve',methods=["GET","POST"])
 @login_required
 def solve():
+    if current_user.level == len(Challenges.query.all()):
+        return "You Won!"
+
     form = ChallengeForm(request.form)
     challenge = Challenges.query.filter_by(level = current_user.level).first()
     #challenge = Challenges.query.filter_by(name=challenge_name).first()
