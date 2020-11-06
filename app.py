@@ -43,8 +43,8 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 tz = pytz.timezone("Asia/Kolkata")
-starttime = datetime.datetime(2020, 11, 6, hour=18, minute=39)
-endtime = datetime.datetime(2020, 11, 8, hour=18, minute=47)
+starttime = datetime.datetime(2020, 11, 6, hour=18, minute=39, tzinfo=tz)
+endtime = datetime.datetime(2020, 11, 7, hour=20, minute=2, tzinfo=tz)
 
 ################################
 ##########   MODELS   ##########
@@ -90,22 +90,15 @@ class Challenges(db.Model):
     def __repr__(self):
         return '<Challenge Level {}>'.format(self.level)
 
+class Attempts(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    time = db.Column(db.DateTime)
+    username = db.Column(db.String(80))
+    level = db.Column(db.Integer)
+    flag = db.Column(db.String(80))
 
-"""
-def user_score(user):
-    solved = user.solved.split(",")
-    score = 0
-    for c in solved:
-        if len(c) == 0: continue
-        q = Challenges.query.get(int(c))
-        if q is None: continue
-        score += int(q.score)
-    return score
-
-@app.context_processor
-def utility_processor():
-    return dict(user_score=user_score)
-"""
+    def __repr__(self):
+        return '<Attempt>'
 
 ################################
 ###########  FORMS   ###########
@@ -149,10 +142,16 @@ def load_user(user_id):
 def index():
     return render_template('index.html')
 
+@app.route('/zsqetnjxph')
+def logs():
+    attempts = Attempts.query.filter().all()
+    attempts.sort(key=lambda x: x.time, reverse=True)
+    return render_template('logs.html', attempts=attempts)
+
 @app.route('/solve',methods=["GET","POST"])
 @login_required
 def solve():
-    timenow = datetime.datetime.now()
+    timenow = datetime.datetime.now(tz)
     if timenow <= starttime:
         delta = starttime - timenow
         hours, minutes, seconds = get_hms(delta)
@@ -166,11 +165,17 @@ def solve():
         return render_template("youwon.html")
 
     form = ChallengeForm(request.form)
+    user = User.query.filter_by(username=current_user.username).first()
+
+    attempt = Attempts(time=timenow, username=user.username,
+            level=user.level, flag=form.flag.data)
+    db.session.add(attempt)
+    db.session.commit()
+
     challenge = Challenges.query.filter_by(level = current_user.level).first()
     #challenge = Challenges.query.filter_by(name=challenge_name).first()
     
     if form.validate_on_submit() and challenge.flag == form.flag.data:
-        user = User.query.filter_by(username=current_user.username).first()
 
         user.lastSubmit = datetime.datetime.utcnow()
         challenge.solves = str(int(challenge.solves) +1)
@@ -196,7 +201,6 @@ def scoreboard():
     users = User.query.filter(User.username!='admin').all()
     users.sort(key=lambda x: x.level, reverse=True)
     #ranking = -1 if current_user.username == "admin" else int(users.index(current_user)) + 1
-    ranking = users.index(current_user)
     return render_template('scoreboard.html', users=users, ranking=ranking)
 
 @app.route('/register', methods=['GET','POST'])

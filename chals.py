@@ -34,7 +34,7 @@ declare_chal({
 declare_chal({
     "level": 2,
     "info": """
-    LuTJQQU160w<br>
+    https://www.youtube.com/watch?v=LuTJQQU160w<br>
     https://files.catbox.moe/fqbiws.zip
 """,
     "flag": 'cve202012352'

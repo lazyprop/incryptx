@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block page_content %}
+<h2>Log</h2>
+
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+th, td {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+</style>
+
+<table>
+    <tr>
+        <td>Time</td>
+        <td>Username</td>
+        <td>Level</td>
+        <td>Flag</td>
+    </tr>
+    {% for attempt in attempts %}
+    <tr>
+        <td>{{ attempt.time }}</td>
+        <td>{{ attempt.username }}</td>
+        <td>{{ attempt.level }}</td>
+        <td>{{ attempt.flag }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<form method="post" action="/"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /></form>
+{% endblock %}
