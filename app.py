@@ -1,7 +1,6 @@
 #
 # Copyright (c) 2019 Andrea Fioraldi <andreafioraldi@gmail.com>
 # This code is under the BSD 2-clause license
-#
 # Code inspired by https://github.com/abdesslem/CTF (Copyright (c) 2015 Amri Abdesslem)
 #
 
@@ -43,8 +42,8 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 tz = pytz.timezone("Asia/Kolkata")
-starttime = datetime.datetime(2020, 11, 6, hour=18, minute=39, tzinfo=tz)
-endtime = datetime.datetime(2020, 11, 7, hour=20, minute=2, tzinfo=tz)
+starttime = datetime.datetime(2020, 11, 7, hour=0, minute=23,  tzinfo=tz)
+endtime = datetime.datetime(2020, 11, 9, hour=0, minute=23, tzinfo=tz)
 
 ################################
 ##########   MODELS   ##########
@@ -156,6 +155,8 @@ def logs():
 @login_required
 def solve():
     timenow = datetime.datetime.now(tz)
+    print(starttime)
+    print(timenow)
     if timenow <= starttime:
         delta = starttime - timenow
         hours, minutes, seconds = get_hms(delta)
@@ -202,10 +203,10 @@ def solve():
 @app.route('/scoreboard')
 @login_required
 def scoreboard():
-    users = User.query.filter(User.username!='admin').all()
+    users = User.query.filter().all()
     users.sort(key=lambda x: x.level, reverse=True)
     #ranking = -1 if current_user.username == "admin" else int(users.index(current_user)) + 1
-    return render_template('scoreboard.html', users=users, ranking=ranking)
+    return render_template('scoreboard.html', users=users)
 
 @app.route('/register', methods=['GET','POST'])
 def register():

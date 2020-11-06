@@ -81,6 +81,7 @@ declare_chal({
     "level": 7,
     "info": """
     bit.ly/sg14fhjf<br>
+    bit.ly/3l5mSfV<br>
     https://files.catbox.moe/xnek48.zip
 """,
     "flag": 'sleight'
@@ -90,7 +91,8 @@ declare_chal({
 declare_chal({
     "level": 8,
     "info": """
-    <a href="https://bit.ly/32hRD9X">courage and heroism</a>
+    <a href="https://bit.ly/32hRD9X">courage and heroism</a><br>
+    the image contains a hidden message
 """,
     "flag": 'goldstar'
 })
@@ -115,6 +117,7 @@ declare_chal({
     "level": 10,
     "info": """
     bit.ly/yehloyaar
+    https://rb.gy/yn7tfu
     """,
     "flag": 'trinity'
 })
