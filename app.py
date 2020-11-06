@@ -186,9 +186,11 @@ def solve():
         return redirect(url_for("solve"))
 
     elif form.validate_on_submit() and challenge.flag != form.flag.data :
+        delta = endtime - timenow
+        hours, minutes, seconds = get_hms(delta)
         return render_template("challenge.html", form=form, challenge=challenge,
-                wrong=True)
-    
+                wrong=True, hours=hours, minutes=minutes, seconds=seconds)
+
     delta = endtime - timenow
     hours, minutes, seconds = get_hms(delta)
     return render_template('challenge.html',form=form, challenge=challenge,

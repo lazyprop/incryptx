@@ -15,10 +15,11 @@
 Incorrect Flag
 {% endif %}
 
-<br><br>
+<br>
 {% if form.errors %}{% for e in form.errors %}{% for m in form.errors[e] %}
  >> {{ m }}<br>
 {% endfor %}{% endfor %}{% endif %}
+<br><br>
 
 <h3>
     Hunt ends in
