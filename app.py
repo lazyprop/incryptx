@@ -21,6 +21,7 @@ from flask_wtf.csrf import CSRFProtect
 import datetime
 import os
 import time
+import pytz
 
 ################################
 #########   GLOBALS   ##########
@@ -40,6 +41,10 @@ CSRFProtect(app)
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+tz = pytz.timezone("Asia/Kolkata")
+starttime = datetime.datetime(2020, 11, 6, hour=18, minute=39)
+endtime = datetime.datetime(2020, 11, 8, hour=18, minute=47)
 
 ################################
 ##########   MODELS   ##########
@@ -123,6 +128,14 @@ class RegistrationForm(FlaskForm):
                                    validators=[Required(), EqualTo('password')])
     submit = SubmitField('Register')
 
+def get_hms(delta):
+    seconds = delta.seconds
+    hours = seconds // 3600
+    seconds -= hours * 3600
+    minutes = seconds // 60
+    seconds -= minutes * 60
+    return hours, minutes, seconds
+    
 ################################
 ##########  ROUTES   ###########
 ################################
@@ -139,6 +152,16 @@ def index():
 @app.route('/solve',methods=["GET","POST"])
 @login_required
 def solve():
+    timenow = datetime.datetime.now()
+    if timenow <= starttime:
+        delta = starttime - timenow
+        hours, minutes, seconds = get_hms(delta)
+        return render_template("startsin.html", hours=hours,
+                minutes=minutes, seconds=seconds)
+
+    if timenow >= endtime:
+        return render_template("ended.html")
+
     if current_user.level == len(Challenges.query.all()):
         return "You Won!"
 
@@ -160,12 +183,15 @@ def solve():
         user.level += 1
         db.session.commit()
 
-        return "Well done, the flag is correct."
+        return redirect(url_for("solve"))
 
     elif form.validate_on_submit() and challenge.flag != form.flag.data :
         return 'Wrong Flag!'
     
-    return render_template('challenge.html',form=form, challenge=challenge )
+    delta = endtime - timenow
+    hours, minutes, seconds = get_hms(delta)
+    return render_template('challenge.html',form=form, challenge=challenge,
+            hours=hours, minutes=minutes, seconds=seconds)
 
 @app.route('/scoreboard')
 @login_required

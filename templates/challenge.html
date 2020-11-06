@@ -15,4 +15,11 @@
 {% if form.errors %}{% for e in form.errors %}{% for m in form.errors[e] %}
  >> {{ m }}<br>
 {% endfor %}{% endfor %}{% endif %}
+
+<h3>
+    Hunt ends in
+    {{ hours }} hours
+    {{ minutes }} minutes
+    {{ seconds }} seconds
+</h3>
 {% endblock %}
