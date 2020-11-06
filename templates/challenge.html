@@ -5,12 +5,16 @@
 
 {{challenge.info | safe }}
 
+<br><br>
 <form method="POST">{{ form.csrf_token }}
-  Flag:
-  {{ form.flag }}
+  {{ form.flag(autofocus=true) }}
 
   {{ form.submit }}
 </form>
+{% if wrong %}
+Incorrect Flag
+{% endif %}
+
 <br><br>
 {% if form.errors %}{% for e in form.errors %}{% for m in form.errors[e] %}
  >> {{ m }}<br>
