@@ -142,11 +142,15 @@ def load_user(user_id):
 def index():
     return render_template('index.html')
 
-@app.route('/zsqetnjxph')
+@app.route('/logs')
+@login_required
 def logs():
-    attempts = Attempts.query.filter().all()
-    attempts.sort(key=lambda x: x.time, reverse=True)
-    return render_template('logs.html', attempts=attempts)
+    if current_user.username == "admin":
+        attempts = Attempts.query.filter().all()
+        attempts.sort(key=lambda x: x.time, reverse=True)
+        return render_template('logs.html', attempts=attempts)
+    else:
+        return ":)"
 
 @app.route('/solve',methods=["GET","POST"])
 @login_required
