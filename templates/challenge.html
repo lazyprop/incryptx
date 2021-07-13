@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<h2>Level {{ challenge.level }}</h2>
+
+{{challenge.info | safe }}
+
+<br><br>
+<form method="POST">{{ form.csrf_token }}
+  {{ form.flag(autofocus=true) }}
+
+  {{ form.submit }}
+</form>
+{% if wrong %}
+Incorrect Flag
+{% endif %}
+
+<br>
+{% if form.errors %}{% for e in form.errors %}{% for m in form.errors[e] %}
+ >> {{ m }}<br>
+{% endfor %}{% endfor %}{% endif %}
+<br><br>
+
+<h3>
+    Hunt ends in
+    {{ hours }} hours
+    {{ minutes }} minutes
+    {{ seconds }} seconds
+</h3>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block page_content %}
+<h2>Scoreboard</h2>
+
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+th, td {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+</style>
+<table>
+    <tr>
+        <td>Rank</td>
+        <td>Username</td>
+        <td>Level</td>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ users.index(user)+1 }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.level }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<form method="post" action="/"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /></form>
+{% endblock %}

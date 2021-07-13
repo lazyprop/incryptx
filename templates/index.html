@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+<h2>Rules</h2>
+
+<p>
+    1. DOSsing is forbidden.<br>
+    2. No cross-teaming is allowed. <br>
+    3. Everything can be found on 'Google'. <br>
+    4. You can confirm leads by contacting the admins:   <br>
+    &nbsp &nbsp -> farthestmage#8150    <br>
+    &nbsp &nbsp -> supersam9899#2184    <br>
+    &nbsp &nbsp -> FRIGIDxAJ#5424       <br>
+    &nbsp &nbsp -> Gagan#0904           <br>
+    &nbsp &nbsp -> Ojas_Singh#1410      <br>
+    5. Format for answer will be available soon. <br>
+</p>
+
+<form method="post" action="/"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}" /></form>
+{% endblock %}
