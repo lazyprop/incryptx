@@ -4,52 +4,101 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/6d118f0f19.js" crossorigin="anonymous"></script>
     
     <title>Incrypt-[X]</title>
     <style>
         body {
             margin: 5% auto;
             background: #000000;
-            color: #129500 ;
+            color: white ;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             font-size: 16px;
             line-height: 1.8;
-            text-shadow: 0 1px 0 #68FF00 ;
-            max-width: 73%;
+            text-shadow:  ;
+            max-width: 90%;
+            background-color: black;
+            background-image: url("https://cdn.discordapp.com/attachments/869615410511753226/871816318528139304/ezgif.com-gif-maker1.gif");
+            background-size: cover; background-repeat: no-repeat;
+            background-attachment: fixed;
+
+            background-blend-mode: luminosity;
+
+
         }
         code {
             background: white;
         }
         a {
-            border-bottom: 1px solid #444444;
-            color: #68FF00;
+            color: #c9c9c9;
             text-decoration: none;
+
         }
+
         a:hover {
-            border-bottom: 0;
-        }
+            color: white;        }
         H1 {
             display: inline;
+            
         }
 
         H3 {
             
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            
             font-size: 16px;
             line-height: 1.8;
-            text-shadow: 0 1px 0 #68FF00 ;
             max-width: 73%;
             display: inline;
             position: relative;
         
          }
 
+         button {
+            background-color: transparent;
+            border: 0;
+            color: #c9c9c9;
+            
+         }
+
+         button:hover {
+            color: white;
+         }
+
+           h1 {
+    margin: 0;
+    padding-bottom: 0rem;
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 1;
+    font-family: 'Benguiat', sans-serif;
+    font-size: 3rem;
+    text-transform: uppercase;
+    animation: glow 2s ease-in-out infinite alternate;
+    text-align: center;
+  }
+  
+  @keyframes glow {
+    from {
+      text-shadow: 0 0 10px #c9c9c9;
+    }
+    to {
+      text-shadow: 0 0 30px #fff, 0 0 10px #fff;
+    }
+  }
+}
+
        
     </style>
+    
 </head>
 <body>
+    
+    
+    <font face="Beguiat">
+   <div class="content"></div>
+   <h1><span class='one'>InCrypt</span><span class='six'><font face="C059">-</font>[X]</span></h1>
 
-<h1>Incrypt-[X]</h1>
+
 
 <div align="right">
 <h3>
@@ -60,11 +109,30 @@
     {% if current_user.is_authenticated %}<a href="{{ url_for('logout') }}">Log Out</a>
     {% else %}<a href="{{ url_for('register') }}">Register</a> &nbsp; <a href="{{ url_for('login') }}">Log In</a>
     {% endif %}
+<audio id="myAudio">  <source src="https://cdn.discordapp.com/attachments/869485824708870217/881845726051708988/kuroi_light.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 
+<button onclick="playAudio()" type="button"><i class="fas fa-volume-up"></i></button>
+<button onclick="pauseAudio()" type="button"><i class="fas fa-volume-mute"></i></i></button> 
+<script>
+var x = document.getElementById("myAudio"); 
+
+function playAudio() { 
+  x.play(); 
+} 
+
+function pauseAudio() { 
+  x.pause(); 
+} 
+</script>
 </h3>
 </div>
 {% block content %}{% block page_content %} {% endblock %}
 {% endblock %}
+</font>
+
+
 
 </body>
 </html>
