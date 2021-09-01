@@ -9,3 +9,12 @@ Define the set of challenges in `chals.py`.
 Run `python chals.py` to setup the database.
 
 Run `python run.py` and you are up.
+
+## TODO
+- [ ] Update `requirements.txt`
+- [ ] Rewrite README properly.
+- [ ] Refactor and properly recomment `app.py`.
+- [ ] Replace `chals.py` with a config file.
+- [ ] Deal with timezone problems.
+  - [ ] Fix `get_hms` to deal with multi-day contests.
+  - [ ] Fix the 23 minute offset.
