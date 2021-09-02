@@ -1,6 +1,7 @@
 # Incrypt-[X]
 
-Forked from andreafioraldi/motherfucking-ctf. Thanks @supersam9899 for the new design!
+Forked from [andreafioraldi/motherfucking-ctf](https://github.com/andreafioraldi/motherfucking-ctf).
+Thanks [supersam](https://github.com/supersam) for the new design!
 
 Define a description of the CTF in `templates/index.html`.
 
