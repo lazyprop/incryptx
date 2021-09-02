@@ -1,5 +1,7 @@
 # Incrypt-[X]
 
+Forked from andreafioraldi/motherfucking-ctf. Thanks @supersam9899 for the new design!
+
 Define a description of the CTF in `templates/index.html`.
 
 Install requirements `pip install -r requirements.txt`
